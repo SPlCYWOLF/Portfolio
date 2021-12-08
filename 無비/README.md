@@ -42,7 +42,7 @@ partnered with Dong Jun LEE
 
 ## 🗓 Date / 💻 Environment 
 
-* **Start** Date : 2021년 11월 17일 (수) 10:00
+* **Start** Date : 2021년 11월 15일 (월) 10:00
 * **Completion** Date : 2021년 11월 25일 (목) 18:00
 * **Environment**
   * **사용 도구 : `Visual Studio Code`, `Chrome Browser`**
