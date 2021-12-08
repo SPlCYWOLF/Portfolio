@@ -1,0 +1,159 @@
+.fade-in-box {
+  animation: fadein 3s;
+  /* -moz-animation: fadein 3s; Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  /* -o-animation: fadein 3s; Opera */
+  position: absolute;
+  top: -20%;
+}
+
+.fade-in-text {
+  position: absolute;
+  top: 35%;
+  left: 46.2%;
+  animation: fadeInDown 5s;
+  font-size: 150px;
+  color: black;
+  z-index: 5;
+  font-family: 'Papyrus';
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.explanation {
+  position: absolute;
+  z-index: 3;
+  top: 30%;
+  left: 42.3%;
+  font-size: 30px;
+  color: #385E72;
+}
+
+@keyframes fadeInDown {
+0% {opacity: 0; transform: translate3d(0, -100%, 0);}
+to {opacity: 1; transform: translateZ(0);}
+}
+
+
+/* --------------------------------------------------------------------------------- */
+.awesome-button {
+  display: block;
+  z-index: 3;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 60%;
+  left: 45%;
+  animation-delay: 3s;
+  animation: fadein 3s;
+  /* -moz-animation: fadein 3s; Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  /* -o-animation: fadein 3s; Opera */
+  
+}
+
+.jebal {
+  width: 200px;
+  padding: 20px 30px;
+  position: absolute;
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+  z-index: 3;
+
+}
+.jebal:hover .wave {
+  top: -120px;
+}
+.jebal .enter {
+  position: absolute;
+  z-index: 1;
+  color: white;
+  font-size: 15px;
+  letter-spacing: 8px;
+  top: 30%;
+  left: 35%;
+}
+.jebal .wave {
+  width: 200px;
+  height: 200px;
+  background-color: #6AABD2;
+  box-shadow: inset 0 0 30px #D9E4EC;
+  position: absolute;
+  left: 0;
+  top: -80px;
+  transition: 0.4s;
+}
+.jebal .wave::before, .jebal .wave::after {
+  width: 200%;
+  height: 200%;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -75%);
+}
+.jebal .wave::before {
+  top: -7%;
+  border-radius: 45%;
+  background-color: #D9E4EC;
+  animation: wave 10s linear infinite;
+}
+.jebal .wave::after {
+  top: -7%;
+  border-radius: 40%;
+  background-color: #B7CFDC;
+  animation: wave 15s linear infinite;
+}
+
+@keyframes wave {
+  0% {
+    transform: translate(-50%, -75%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -75%) rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------- */
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* @-moz-keyframes fadein { Firefox */
+    /* from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+} */
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* @-o-keyframes fadein { Opera */
+    /* from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+} */
+
+/* ----------------------------------------------------------------------------- */
