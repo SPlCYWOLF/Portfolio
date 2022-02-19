@@ -6,13 +6,21 @@
 
 <br>
 
-[TOC]
+## 📌 목차
 
+<!-- TOC -->
+1. [프로젝트 소개](#프로젝트-소개)
+2. [기술 스택](#기술-스택)
+3. [시스템 구상도](#시스템-구상도)
+4. [주요 기능](#주요-기능)
+5. [팀원 소개](#팀원-소개)
+6. [빌드 및 배포](#빌드-및-배포)
+<!-- /TOC -->
+<br>
+<hr>
 <br>
 
-<hr>
-
-## 🎉 프로젝트 소개
+## 프로젝트 소개
 
 ```TOGETHER```는 기존의 화상회의 프로그램에 **STT**(speach to text)와 **TTS**(text to speach) 기능을 추가하여   
 듣고 말하고 보기 어려웠던 장애인 분들에게 편리함을 제공하는 서비스 입니다.
@@ -22,19 +30,17 @@
 
 <br>
 
-## 💡 기술 스택
+## 기술 스택
 
 #### Frontend
 <img alt="React" src ="https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=react&logoColor=white"/>  <img alt="Next" src ="https://img.shields.io/badge/Next-000000.svg?&style=for-the-badge&logo=Next.js&logoColor=white"/>  <img alt="JavaScript" src ="https://img.shields.io/badge/JavaScript-F7DF1E.svg?&style=for-the-badge&logo=JavaScript&logoColor=white"/>
 <img alt="Tailwind CSS" src ="https://img.shields.io/badge/Tailwind CSS-06B6D4.svg?&style=for-the-badge&logo=Tailwind CSS&logoColor=white"/>  <img alt="CSS3" src ="https://img.shields.io/badge/CSS3-1572B6.svg?&style=for-the-badge&logo=CSS3&logoColor=white"/>  <img alt="Babel" src ="https://img.shields.io/badge/Babel-F9DC3E.svg?&style=for-the-badge&logo=Babel&logoColor=white"/>
-
 
 #### Backend
 <img alt="Spring Boot" src ="https://img.shields.io/badge/Spring Boot-6DB33F.svg?&style=for-the-badge&logo=Spring Boot&logoColor=white"/>  <img alt="Spring Security" src ="https://img.shields.io/badge/Spring Security-6DB33F.svg?&style=for-the-badge&logo=Spring Security&logoColor=white"/>  <img alt="Gradle" src ="https://img.shields.io/badge/Gradle-02303A.svg?&style=for-the-badge&logo=Gradle&logoColor=white"/>
 
 <img alt="Apache Maven" src ="https://img.shields.io/badge/Apache Maven-C71A36.svg?&style=for-the-badge&logo=Apache Maven&logoColor=white"/>  <img alt="Kurrento" src ="https://img.shields.io/badge/Kurrento-008080.svg?&style=for-the-badge&logo=Apache Maven&logoColor=008080"/>  <img alt="Coturn" src ="https://img.shields.io/badge/Coturn-EB680B.svg?&style=for-the-badge&logo=Apache Maven&logoColor=EB680B"/>
 <img alt="MySQL" src ="https://img.shields.io/badge/MySQL-4479A1.svg?&style=for-the-badge&logo=MySQL&logoColor=white"/>  <img alt="OpenSSL" src ="https://img.shields.io/badge/OpenSSL-721412.svg?&style=for-the-badge&logo=OpenSSL&logoColor=white"/>
-
 
 ### DevOps
 <img alt="Amazon AWS" src ="https://img.shields.io/badge/Amazon AWS-232F3E.svg?&style=for-the-badge&logo=Amazon AWS&logoColor=white"/>  <img alt="Netlify" src ="https://img.shields.io/badge/Netlify-00C7B7.svg?&style=for-the-badge&logo=Netlify&logoColor=white"/>  <img alt="Docker" src ="https://img.shields.io/badge/Docker-2496ED.svg?&style=for-the-badge&logo=Docker&logoColor=white"/>
@@ -50,7 +56,7 @@
 
 <br>
 
-## 📌 주요 기능
+## 주요 기능
 
 - ### 회원관리
 
@@ -85,7 +91,7 @@
 
 <br>
 
-## 🧑 팀원 소개
+## 팀원 소개
 
 <details><summary><strong>유재룡</strong> [ BE ]&nbsp;&nbsp;&nbsp;<em>Click!</em></summary>
 
@@ -129,7 +135,7 @@
 
 <br>
 
-## :penguin: 빌드 및 배포
+## 빌드 및 배포
 
 * [보러가기✔](https://github.com/SPlCYWOLF/Portfolio/blob/master/Together/exec/%EB%B9%8C%EB%93%9C%20%EB%B0%8F%20%EB%B0%B0%ED%8F%AC.md)
 
