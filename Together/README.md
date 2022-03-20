@@ -123,7 +123,8 @@
 <details><summary><strong>김태훈</strong> [ FE ]</summary>
 
   * 로그인, 회원가입 컴포넌트 제작
-  * 사이트 레이아웃 수정
+  * 웹서비스 페이지 레이아웃 보조
+  * 화상회의 구현 보조
   * 웹 접근성 WAI-ARIA 담당
 </details>
 <details><summary><strong>진민규</strong> [ FE ]</summary>
