@@ -1,8 +1,5 @@
-import Head from 'next/head'
-import dynamic from 'next/dynamic';
-
-// 오직 cliend-side 에서만 렌더 되게끔 lazy loading 처리
-const Main = dynamic(() => {return import('../components/main')}, {ssr: false});
+import Head from 'next/head';
+import style from '../styles/Home.module.css';
 
 export default function Home() {
   return (
@@ -14,15 +11,16 @@ export default function Home() {
         {/* <script type="text/javascript" src="../components/main.js"></script> */}
       </Head>
 
-      <main className="main">
-        <div id="container">
-          <div id="head">
-            <p id="title">점프컹스</p>
-            <p id="mute">Mute<input type="checkbox" /></p>
-          </div>
-          <Main />
+      <section className={style.grid}>
+        <div className={style.card}>
+          <label htmlFor='id' >Id</label>
+          <input id="id" type="text" />
         </div>
-      </main>
+        <div className={style.card}>
+          <label htmlFor="pw" >Password</label>
+          <input id="pw" type="password" />
+        </div>
+      </section>
 
     </div>
   )
