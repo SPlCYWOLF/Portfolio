@@ -1,4 +1,8 @@
+import { useEffect } from "react";
+
 const Main = () => {
+
+    // const event = new Event('gameReady');
 
     let cvs;
     let gfx;
@@ -570,11 +574,24 @@ const Main = () => {
         }
     }
 
+    // useEffect(() => {
+    //     init();
+    //     run();
+    // }, [])
+
     window.onload = function ()
     {
+        alert(window.onload);
         init();
         run();
     };
+
+    // window.addEventListener('gameReady', function() {        
+    //     alert(window.onload);
+    //     init();
+    //     run();
+    // });
+
 
     function init()
     {
@@ -756,6 +773,8 @@ const Main = () => {
         blocks.push(new Block(7, new AABB(520, 430, 46, 34)));
         blocks.push(new Block(7, new AABB(877, 600, 46, 34)));
         walls.push(new Wall(7, 715, 430, 0, 300));
+
+        // elem.dispatchEvent(event);
     }
 
     function keyDown(e)
