@@ -1,0 +1,104 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* -------------------------------------------------------------------------------------- */
+
+.intro {
+  display: flex;
+  justify-content: center;
+  gap: 10vw;
+  align-items: center;
+  margin-top: 40vh;
+}
+
+.image-box{
+  
+  width:550px;
+  height:440px;
+  overflow:hidden;
+  margin:0 auto;
+  align-items:bottom;
+}
+.intro-image{
+  
+  width:100%;
+  position:relative;
+  bottom:3077px;
+  object-fit:cover;
+  animation-name: climb;
+  animation-duration : 8s;
+  
+  animation-iteration-count:infinite;
+  animation-direction:alternate;
+  animation-fill-mode:forwards;
+}
+
+@-webkit-keyframes climb{
+  0% {
+    bottom: 3077px;
+  }
+  100%{
+    bottom: 0px;
+  }
+}
+
+#mute {
+  float: right;
+  /* margin-top: 40px; */
+  margin-left: 20px;
+  display: inline;
+}
+
+#cvs {
+  border: 2px solid black;
+  margin: 0px 28px
+}
+
+/* ***************************************************************************** */
+
+@keyframes flickerAnimation {
+  0%   { opacity:1; transform: translatey(0px); }
+  50%  { opacity:0.5; transform: translatey(-20px); }
+  100% { opacity:1; transform: translatey(0px); }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; transform: translatey(0px); }
+  50%  { opacity:0.5; transform: translatey(-20px); }
+  100% { opacity:1; transform: translatey(0px); }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; transform: translatey(0px); }
+  50%  { opacity:0.5; transform: translatey(-20px); }
+  100% { opacity:1; transform: translatey(0px); }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; transform: translatey(0px); }
+  50%  { opacity:0.5; transform: translatey(-20px); }
+  100% { opacity:1; transform: translatey(0px); }
+}
+.animate-flicker1 {
+   -webkit-animation: flickerAnimation 6s ease-in-out infinite;
+   -moz-animation: flickerAnimation 6s ease-in-out infinite;
+   -o-animation: flickerAnimation 6s ease-in-out infinite;
+    animation: flickerAnimation 6s ease-in-out infinite;
+}
+.animate-flicker2 {
+  -webkit-animation: flickerAnimation 4s ease-in-out infinite;
+  -moz-animation: flickerAnimation 4s ease-in-out infinite;
+  -o-animation: flickerAnimation 4s ease-in-out infinite;
+   animation: flickerAnimation 4s ease-in-out infinite;
+}
