@@ -2,10 +2,10 @@ import {useRouter} from 'next/router';
 import { useState, useEffect } from 'react';
 import style from './joinModal.module.css';
 import axios from 'axios'
+import toast from 'react-hot-toast';
 
-
-export default function JoinModal({toggleJoinModal}) {
-  const basicURL = 'http://localhost:8081/api'
+export default function JoinModal({toggleModal}) {
+  const basicURL = 'https://k6a401.p.ssafy.io/api'
   const [isInterference, setIsInterference] = useState("");
 
   const handleChange = (e) => {
@@ -38,6 +38,15 @@ export default function JoinModal({toggleJoinModal}) {
       .catch(e=>console.error(e))
   }
 
+  const closeModal = () => {
+    toast.dismiss();
+    toggleModal();
+  }
+
+  const test = () => {
+    toggleModal();
+  }
+
   return (
     <section className={style.modal}>
       <div className={style.card}>
@@ -55,7 +64,8 @@ export default function JoinModal({toggleJoinModal}) {
       </div>
       <div className={style.btns}>
         <button onClick={joinRoom} >join</button>
-        <button onClick={toggleJoinModal} >close</button>
+        <button onClick={closeModal} >close</button>
+        <button onClick={test}>test</button>
       </div>
     </section>
   )
