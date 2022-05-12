@@ -6,25 +6,17 @@ function MyApp({ Component, pageProps }) {
     <>
       <Component {...pageProps} />
       <Toaster 
-      containerStyle={{
-        position: 'absolute',
-        top: '50%',
-      }}
-      toastOptions={{
-        blank: {
-          duration: Infinity,
-          style: {
-            // color: '#713200',
+        containerStyle={{
+          position: 'absolute',
+          top: '50%',
+        }}
+        toastOptions={{
+          blank: {
+            duration: Infinity,
           },
-        },
-        custom: {
-          duration: Infinity,
-          style: {
-            // color: '#713200',
-          },
-        },
-      }}
+        }}
       />
+      
     </>
   )
 }
