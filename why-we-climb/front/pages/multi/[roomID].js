@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 // import Engine from '../../components/multiEngine'
 const StompJS = require('@stomp/stompjs');
-const Engine = dynamic(() => { return import('../../components/multiEngine')}, {ssr:false});
+const Engine = dynamic(() => { return import('../../components/new_multi')}, {ssr:false});
 
 const basicURL = 'https://k6a401.p.ssafy.io/api';
 // const basicURL = `http://localhost:8081/api`
@@ -19,10 +19,13 @@ const stomp = Stomp.over(function(){
 stomp.reconnect_delay = 5000;
 
 export default function WaitRoom() {
-  const [isStart, setIsStart] = useState(true);
+  const [isStart, setIsStart] = useState(false);
   const router = useRouter();
   const {roomID} = router.query;
   const [userInfo, setUserInfo] = useState();
+  const [roomInfo, setRoomInfo] = useState();
+  const [groupInfo, setGroupInfo] = useState();
+  const [isReady, setIsReady] = useState();
 
   // function sendMessage(msg){
   //   console.log('hii');
@@ -30,30 +33,50 @@ export default function WaitRoom() {
   // }
 
   function startGame(){
-    setIsStart(prev=>!prev);
+    var count = 0;
+    for (const player of groupInfo){
+      if (player.ready === true) count++;
+    }
+    if (count === groupInfo.length){
+      axios.put(`${basicURL}/chat/room/start/${roomID}`)
+      .then(res=>console.log('start!!!',res))
+      .catch(err=>console.error(err))
+    }
   }
 
-  // function receiveMessage(msg){
-  //   console.log('msg',msg)
-  //   setMsg(msg);
-  // }
+  function receiveMessage(msg){
+    console.log('msg',msg)
+    if(msg.data){
+      setGroupInfo(msg.data);
+    }    
+    if(msg.message && msg.message==="start"){
+      setIsStart(prev => !prev);
+    }
+  }
 
-  // function socketConnect(){
-  //   stomp.connect({},
-  //     function(){
-  //       stomp.subscribe(`/sub/chat/room/`+roomID, function(message){
-  //         var recv = JSON.parse(message.body);
-  //         receiveMessage(recv);
-  //         console.log(message);
-  //       });
-  //       stomp.send(`/pub/chat/message`,{},JSON.stringify({type:'ENTER', roomCode:roomID, sender:"noman"}));
-  //       // console.log('stomp',stomp);
-  //     },
-  //     function(error){
-  //       console.log('error',error.headers.message);
-  //     }
-  //   )
-  // }
+  function ready(){
+    stomp.send(`/pub/room/ready`,{},userInfo.userSeq);
+  }
+
+
+  function socketConnect(data){
+    stomp.connect({},
+      function(){
+        console.log('stomp',stomp.webSocket._transport.url);
+        const strings = stomp.webSocket._transport.url.split('/');
+        const sessionId = strings[strings.length-2];
+        stomp.subscribe(`/sub/chat/room/`+roomID, function(message){
+            console.log('here !!!message',message);
+            var recv = JSON.parse(message.body);
+            receiveMessage(recv);
+        });
+        stomp.send(`/pub/room/entrance`,{},JSON.stringify({roomCode:roomID, sessionId:sessionId, userSeq:data.userSeq, userId:data.userId}));
+      },
+      function(error){
+        console.log('error',error.headers.message);
+      }
+    )
+  }
 
   function getUserInfo(){
     const token = localStorage.getItem("token");
@@ -63,8 +86,19 @@ export default function WaitRoom() {
     }
     fetch(`https://k6a401.p.ssafy.io/api/user/information`, {headers:headers})
       .then(res => res.json())
-      .then(data => setUserInfo(data))
-      .catch(err => console.log(err))
+      .then(data => {socketConnect(data);setUserInfo(data)})
+      .catch(err => {
+        alert("다시 로그인을 해주세요");
+        localStorage.removeItem("token");
+        location.href="/";        
+      })
+  }
+
+  function goBack(){
+    stomp.disconnect(function(){
+      alert("go back");
+      location.href="/multi";
+    })
   }
   
   useEffect(()=>{
@@ -74,34 +108,32 @@ export default function WaitRoom() {
         .then(data=>{
           if(data!==''){
             console.log(data);
+            setRoomInfo(data);
             getUserInfo();
           } else {
+            alert("존재하지 않는 방입니다.");
             location.href="/multi";
           }
         })
+        .catch(err => console.error(err))
     }
   },roomID)
 
   return (
     <>
-      {/* {!isStart && <main className={style.container}>
+      {!isStart && <main className={style.container}>
           <header>welcome to room: {roomID}</header>
           <section>
-            3 / 4
+            {groupInfo && groupInfo.length} / {roomInfo && roomInfo.roomMaxNum}
           </section>
-          <Link href={'/multi'}>
-            <button>back to Lobby</button>
-          </Link>
+          <section>
+            {groupInfo && groupInfo.map(player => <div key={player.userSeq}>{player.userId} - {player.ready? "ready" : "not ready"}</div>)}
+          </section>
+          <button onClick={ready}>ready Button</button>
           <button onClick={startGame}>Start Game</button>
-      </main> }
+          <button onClick={goBack}>back to Lobby</button>
+      </main> }      
       {isStart && <main className={style.container}>
-        <div>
-          <p>점프컹스</p>
-          <p id="mute">Mute<input type="checkbox"/></p>
-        </div>
-          <Engine stomp={stomp} userInfo={userInfo} roomId={roomID}/>
-      </main>} */}
-      <main className={style.container}>
         <div className={style.head}>
           <p className={style.title}>Why We Climb</p>
           
@@ -109,13 +141,13 @@ export default function WaitRoom() {
             <p className={style.time} id="time"></p>
           
         </div>
-        <Engine stomp={stomp} roomId={roomID} userInfo={userInfo}/>
+        <Engine stomp={stomp} roomId={roomID} userInfo={userInfo} groupInfo={groupInfo}/>
         <div className={style.buttons}>
           <Link href={'/'} passHref>
             <a><h3>Back</h3></a>
           </Link>
         </div>
-      </main>
+      </main>}
     </>
     
   )

@@ -2,6 +2,23 @@ import { Component } from "react";
 import style from "./engine.module.css";
 import Link from 'next/link';
 import Modal from "./ui/modal/modal";
+import axios from 'axios'
+import Confetti from 'react-dom-confetti';
+
+const config = {
+  angle: 90,
+  spread: 360,
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: 3000,
+  stagger: 3,
+  width: "10px",
+  height: "10px",
+  perspective: "500px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+};
+
 let cvs;
 let gfx;
 let mute;
@@ -20,7 +37,7 @@ let currentTime = 0;
 let passedTime = 0;
 let msPerFrame = 1000.0 /70.0;
 
-const numResource = 23;
+const numResource = 27;
 let resourceLoaded = 0;
 let startTime;
 let playingTime;
@@ -40,10 +57,10 @@ const boundFriction = 0.66;
 const JumpConst = 15.0;
 const chargingConst = 600.0;
 let player;
-
+let userSeq;
 let flag = false;
 let level = 0;
-let levelMax = 0;
+let levelMax = -1;
 let goalLevel = 7;
 
 class Vector {
@@ -220,6 +237,7 @@ class Player {
     this.size = 32;
     this.radius = (this.size / 2.0) * 1.414;
     this.jumpGauge = 0;
+    this.skin = 1;
   }
 
   aabb() {
@@ -520,7 +538,7 @@ class Player {
     
     if (this.running_L == false && this.running_R == false && this.direction_L && !this.crouching) {
       gfx.drawImage(
-        images["running_L1"],
+        images[`running_${this.skin}_L1`],
         this.x,
         HEIGHT - this.size - this.y + level * HEIGHT,
         this.size,
@@ -528,7 +546,7 @@ class Player {
       );
     } else if (this.running_L == false && this.running_R == false && this.direction_L && this.crouching) {
       gfx.drawImage(
-        images["running_L1"],
+        images[`running_${this.skin}_L1`],
         this.x,
         HEIGHT - this.size * (1 - this.jumpGauge * 0.2) - this.y + level * HEIGHT,
         this.size,
@@ -536,7 +554,7 @@ class Player {
       );
     } else if (this.running_L == false && this.running_R == false && !this.direction_L && !this.crouching) {
       gfx.drawImage(
-        images["running_R1"],
+        images[`running_${this.skin}_R1`],
         this.x,
         HEIGHT - this.size - this.y + level * HEIGHT,
         this.size,
@@ -544,7 +562,7 @@ class Player {
       );
     } else if (this.running_L == false && this.running_R == false && !this.direction_L && this.crouching) {
       gfx.drawImage(
-        images["running_R1"],
+        images[`running_${this.skin}_R1`],
         this.x,
         HEIGHT - this.size * (1 - this.jumpGauge * 0.2) - this.y + level * HEIGHT,
         this.size,
@@ -552,7 +570,7 @@ class Player {
       );
     } else if (this.running_L) {
       gfx.drawImage(
-        images[`running_L${parseInt(this.runningTime / 8) + 1}`],
+        images[`running_${this.skin}_L${parseInt(this.runningTime / 8) + 1}`],
         this.x,
         HEIGHT - this.size - this.y + level * HEIGHT,
         this.size,
@@ -560,7 +578,7 @@ class Player {
       );
     } else {
       gfx.drawImage(
-        images[`running_R${parseInt(this.runningTime / 8) + 1}`],
+        images[`running_${this.skin}_R${parseInt(this.runningTime / 8) + 1}`],
         this.x,
         HEIGHT - this.size - this.y + level * HEIGHT,
         this.size,
@@ -576,6 +594,20 @@ class Player {
 }
 
 function init() {
+  axios({
+    url:`https://k6a401.p.ssafy.io/api/user/information/`,
+    method:'get',
+    headers: {
+      "Authorization": localStorage.getItem("token")
+    }
+  }).then(res=>{
+    console.log(res.data)
+    levelMax = res.data.maxLevel
+    userSeq = res.data.userSeq
+    console.log(levelMax)
+    
+  }).catch(err=>console.error(err))
+  
   cvs = document.getElementById("cvs");
   gfx = cvs.getContext("2d");
   
@@ -762,31 +794,57 @@ function init() {
     resourceLoaded++;
   };
   //19
-  images.running_R1 = new Image();
-  images.running_R1.src = "/images/running_R1.png";
-  images.running_R1.onload = function () {
+  images.running_1_R1 = new Image();
+  images.running_1_R1.src = "/images/1/running_R1.png";
+  images.running_1_R1.onload = function () {
     resourceLoaded++;
   };
   //20
-  images.running_R2 = new Image();
-  images.running_R2.src = "/images/running_R2.png";
-  images.running_R2.onload = function () {
+  images.running_1_R2 = new Image();
+  images.running_1_R2.src = "/images/1/running_R2.png";
+  images.running_1_R2.onload = function () {
     resourceLoaded++;
   };
   //21
-  images.running_L1 = new Image();
-  images.running_L1.src = "/images/running_L1.png";
-  images.running_L1.onload = function () {
+  images.running_1_L1 = new Image();
+  images.running_1_L1.src = "/images/1/running_L1.png";
+  images.running_1_L1.onload = function () {
     resourceLoaded++;
   };
   //22
-  images.running_L2 = new Image();
-  images.running_L2.src = "/images/running_L2.png";
-  images.running_L2.onload = function () {
+  images.running_1_L2 = new Image();
+  images.running_1_L2.src = "/images/1/running_L2.png";
+  images.running_1_L2.onload = function () {
+    resourceLoaded++;
+    
+  };
+  //23
+  images.running_2_R1 = new Image();
+  images.running_2_R1.src = "/images/2/running_R1.png";
+  images.running_2_R1.onload = function () {
+    resourceLoaded++;
+  };
+  //24
+  images.running_2_R2 = new Image();
+  images.running_2_R2.src = "/images/2/running_R2.png";
+  images.running_2_R2.onload = function () {
+    resourceLoaded++;
+  };
+  //25
+  images.running_2_L1 = new Image();
+  images.running_2_L1.src = "/images/2/running_L1.png";
+  images.running_2_L1.onload = function () {
+    resourceLoaded++;
+  };
+  //26
+  images.running_2_L2 = new Image();
+  images.running_2_L2.src = "/images/2/running_L2.png";
+  images.running_2_L2.onload = function () {
     resourceLoaded++;
     console.log("loadFinish")
   };
-  //23
+  //27
+
 
   //Audios
   audios.landing = new Audio();
@@ -924,7 +982,7 @@ function update(delta) {
 
 function rendering() {
   
-  if ( numResource>resourceLoaded) return;
+  if ( numResource>resourceLoaded || resourceLoaded%numResource!=0 || levelMax==-1) return;
   
   gfx.clearRect(0, 0, WIDTH, HEIGHT);
   
@@ -1005,8 +1063,7 @@ function drawBlock(x, y, w, h) {
 }
 function getMousePos(canvas, evt) {
   let rect = canvas.getBoundingClientRect();
-  // player.x=evt.clientX-rect.left;
-  // player.y =HEIGHT-evt.clientY+rect.top + level*HEIGHT;
+    
   player.x=927;
   player.y =695+7*HEIGHT;
   return {
@@ -1042,27 +1099,53 @@ class Engine extends Component {
       Modalshow:false,
       currentTime:null,
     }
+    this.confetti=false;
+    
   }
-
+  
   componentDidMount() {
     console.log("onload");
-    init();
     
+    init();
+    //console.log(localStorage,"localStorage")
     playingTime = document.getElementById("time");
+    
     this.run();
   }
   openModal = () => {
     // console.log("abcd")
-    this.setState({Modalshow:true})
     
+    this.setState({Modalshow:true})
+    this.confetti=true;
   }
   closeModal = () => {
     this.setState({ Modalshow:false})
   }
   refresh () {
-    console.log("awfawf")
+    
     location.reload();
   }
+  
+  componentWillUnmount() {
+    axios({
+      url:`https://k6a401.p.ssafy.io/api/single/level/`,
+      method:'POST',
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      },
+      data:{
+        "backgroundSound": 50,
+        "effectSound": 50,
+        "maxLevel":levelMax,
+        "userSeq": userSeq,
+        
+      }
+    }).then(res=>{
+      console.log(res)
+      
+    }).catch(err=>console.error(err))
+  }
+  
   run(time) {
   
     this.currentTime = new Date().getTime();
@@ -1082,7 +1165,24 @@ class Engine extends Component {
       }
     }
     if(flag){
-      
+      axios({
+        url:`https://k6a401.p.ssafy.io/api/single/level/`,
+        method:'POST',
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        },
+        data:{
+          "backgroundSound": 50,
+          "effectSound": 50,
+          "maxLevel":8,
+          "userSeq": userSeq,
+          
+        }
+      }).then(res=>{
+        
+        console.log(res)
+        
+      }).catch(err=>console.error(err))
       this.openModal()
     }
     if(!flag){
@@ -1097,6 +1197,7 @@ class Engine extends Component {
       <div>
         <canvas id="cvs" width="1000" height="800" />
         <Modal visible={this.state.Modalshow}> 
+        <Confetti active={ this.confetti } config={ config }/>
           <h1 className={style.resultText}>축하합니다!!!</h1>
           <h2 className={style.resultText}>{parseInt((this.currentTime - startTime)/60000)}분{parseInt(((this.currentTime - startTime)%60000)/1000)}초 {parseInt(((this.currentTime - startTime)%1000)/10)}</h2>
           <Link href={''} passHref>

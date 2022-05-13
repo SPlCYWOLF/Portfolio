@@ -6,11 +6,9 @@ import org.springframework.data.redis.core.index.Indexed;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @ToString
 @RedisHash(value = "access")
@@ -20,7 +18,12 @@ public class Access {
 	private String sessionId;
     @Indexed
     private String roomCode;
+    @Indexed
     private Integer userSeq;
     private String userId;
-    private Boolean ready;
+	private Boolean ready;
+
+	public void setReady(Boolean ready) {
+		this.ready = ready;
+	}
 }

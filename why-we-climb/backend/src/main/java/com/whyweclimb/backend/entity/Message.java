@@ -2,7 +2,6 @@ package com.whyweclimb.backend.entity;
 
 import javax.persistence.Id;
 
-import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 import lombok.Getter;
@@ -12,7 +11,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@RedisHash(value = "message")
 public class Message {
     public enum MessageType {
         ENTER, LEAVE, MOVE
@@ -27,4 +25,8 @@ public class Message {
     private Boolean space;
     private Boolean left;
     private Boolean right;
+    private Double x;
+    private Double y;
+    private Double vx;
+    private Double vy;
 }
