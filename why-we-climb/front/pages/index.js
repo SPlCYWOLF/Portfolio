@@ -14,7 +14,7 @@ export default function Home() {
 
   const toMain = () => {
     setLoggedIn(false);
-    window.localStorage.clear();
+    window.sessionStorage.clear();
     inRef.current.scrollTo(3);
     mainRef.current.scrollTo(0);
     setTimeout(() => {
@@ -36,8 +36,8 @@ export default function Home() {
   }
 
   useEffect(() => {             // 로그인 여부에 따라 메인화면 바뀜
-    setLoggedIn(localStorage.getItem("token") ? true : false);
-    if (!localStorage.getItem("token")) {
+    setLoggedIn(sessionStorage.getItem("token") ? true : false);
+    if (!sessionStorage.getItem("token")) {
       setTimeout(() => {
         inRef.current.scrollTo(3);
         mainRef.current.scrollTo(0);
@@ -50,9 +50,12 @@ export default function Home() {
       <Head>
         <title>why we climb</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="we challenge, we compete, and we struggle to find the true reason why we climb." />
         {/* <script type="text/javascript" src="../components/main.js"></script> */}
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@1,500&family=Hahmlet:wght@300&family=Koulen&display=swap" rel="stylesheet"/>
       </Head>
 
       <main>
@@ -61,20 +64,18 @@ export default function Home() {
         pages={4}
         style={{
           overflow: "hidden",
+          backgroundImage: 'url("/images/stars.svg")',
+          backgroundColor: '#565656',
+          backgroundSize: 'cover',
+          display: 'flex',
+          justifyContent: 'center',
+          zIndex: 0,
         }}
         >
           <ParallaxLayer
             offset={0}
             speed={0}
             factor={4}
-            style={{
-              backgroundImage: 'url("/images/stars.svg")',
-              backgroundColor: '#565656',
-              backgroundSize: 'cover',
-              display: 'flex',
-              justifyContent: 'center',
-              zIndex: 0,
-            }}
           />
 
           <ParallaxLayer offset={0} speed={0.8} style={{ opacity: 0.2, zIndex: 0, }}>

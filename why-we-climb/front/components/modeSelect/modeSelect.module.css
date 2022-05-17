@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  z-index: 6;
+  z-index: 4;
   margin-bottom: 6vh;
 }
 .container2 {
@@ -38,7 +38,10 @@
   box-shadow: 0 2px 0px #6d4c41;
   transition: all .1s;
 }
-
+.btn_select {
+  font-size:20px;
+  text-align: center;
+}
 /* ------------------------------------------------------------------------------------ */
 /* 캐릭터 점프 애니매이션 */
 /* 싱글모드 */
@@ -132,3 +135,4 @@
     text-shadow: 0 0 2px #fff, 0 0 7px rgb(82, 82, 204), 0 0 10px rgb(82, 82, 204), 0 0 12px rgb(82, 82, 204), 0 0 15px rgb(82, 82, 204), 0 0 17px rgb(82, 82, 204), 0 0 20px rgb(82, 82, 204);
   }
 }
+

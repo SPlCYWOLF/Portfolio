@@ -6,7 +6,10 @@ import Link from 'next/link';
 import SockJS from 'sockjs-client';
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-// import Engine from '../../components/multiEngine'
+import WaitingRoom from "../../components/multi/waitingRoom";
+
+
+
 const StompJS = require('@stomp/stompjs');
 const Engine = dynamic(() => { return import('../../components/new_multi')}, {ssr:false});
 
@@ -28,7 +31,7 @@ export default function WaitRoom() {
   const [isReady, setIsReady] = useState();
 
   // function sendMessage(msg){
-  //   console.log('hii');
+  //   // console.log('hii');
   //   stomp.send(`/pub/chat/message`, {}, JSON.stringify({type:'MOVE', roomId:roomID, sender:'noman1', message:msg}));
   // }
 
@@ -38,14 +41,19 @@ export default function WaitRoom() {
       if (player.ready === true) count++;
     }
     if (count === groupInfo.length){
-      axios.put(`${basicURL}/chat/room/start/${roomID}`)
-      .then(res=>console.log('start!!!',res))
+      const token = sessionStorage.getItem("token");
+      const headers = {
+        'Authorization': token,
+        mode: 'no-cors'
+      };
+      axios.put(`${basicURL}/room/start/${roomID}`,{headers:headers})
+      .then(res=> console.log('start!!!',res))
       .catch(err=>console.error(err))
     }
   }
 
   function receiveMessage(msg){
-    console.log('msg',msg)
+    // console.log('msg',msg)
     if(msg.data){
       setGroupInfo(msg.data);
     }    
@@ -58,56 +66,77 @@ export default function WaitRoom() {
     stomp.send(`/pub/room/ready`,{},userInfo.userSeq);
   }
 
+  function userConfirm(data){
+    const token = sessionStorage.getItem("token");
+    const headers = {
+      'Authorization': token,
+      mode: 'no-cors'
+    }
+    axios.get(`${basicURL}/user/${data.userSeq}`,{headers:headers})
+      .then(res=> console.log('confirmed!!',res))
+      .catch(err=>{
+        alert("이미 로그인이 되어 있습니다.");
+        window.sessionStorage.clear();
+        location.href="/";
+      })
+  }
+
 
   function socketConnect(data){
     stomp.connect({},
       function(){
-        console.log('stomp',stomp.webSocket._transport.url);
+        // console.log('stomp',stomp.webSocket._transport.url);
         const strings = stomp.webSocket._transport.url.split('/');
         const sessionId = strings[strings.length-2];
-        stomp.subscribe(`/sub/chat/room/`+roomID, function(message){
-            console.log('here !!!message',message);
+        stomp.subscribe(`/sub/room/`+roomID, function(message){
+            // console.log('here !!!message',message);
             var recv = JSON.parse(message.body);
             receiveMessage(recv);
         });
-        stomp.send(`/pub/room/entrance`,{},JSON.stringify({roomCode:roomID, sessionId:sessionId, userSeq:data.userSeq, userId:data.userId}));
+        // console.log(data.skinSeq,"skinSeq")
+        stomp.send(`/pub/room/entrance`,{},JSON.stringify({roomCode:roomID, sessionId:sessionId, userSeq:data.userSeq, userId:data.userId, skinSeq:data.skinSeq}));
       },
       function(error){
-        console.log('error',error.headers.message);
+        // console.log('error',error.headers.message);
       }
     )
   }
 
   function getUserInfo(){
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const headers = {
       'Authorization': token,
       mode: 'no-cors'
     }
     fetch(`https://k6a401.p.ssafy.io/api/user/information`, {headers:headers})
       .then(res => res.json())
-      .then(data => {socketConnect(data);setUserInfo(data)})
+      .then(data => {socketConnect(data);userConfirm(data);setUserInfo(data)})
       .catch(err => {
         alert("다시 로그인을 해주세요");
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         location.href="/";        
       })
   }
 
   function goBack(){
     stomp.disconnect(function(){
-      alert("go back");
+      alert("go back~");
       location.href="/multi";
     })
   }
   
   useEffect(()=>{
     if(roomID){
-      axios.get(`${basicURL}/chat/room/${roomID}`)
+      const token = sessionStorage.getItem("token");
+      const headers = {
+        'Authorization': token,
+        mode: 'no-cors'
+      }
+      axios.get(`${basicURL}/room/${roomID}`,{headers:headers})
         .then(res=>res.data)
         .then(data=>{
           if(data!==''){
-            console.log(data);
+            // console.log(data);
             setRoomInfo(data);
             getUserInfo();
           } else {
@@ -121,18 +150,16 @@ export default function WaitRoom() {
 
   return (
     <>
-      {!isStart && <main className={style.container}>
-          <header>welcome to room: {roomID}</header>
-          <section>
-            {groupInfo && groupInfo.length} / {roomInfo && roomInfo.roomMaxNum}
-          </section>
-          <section>
-            {groupInfo && groupInfo.map(player => <div key={player.userSeq}>{player.userId} - {player.ready? "ready" : "not ready"}</div>)}
-          </section>
-          <button onClick={ready}>ready Button</button>
-          <button onClick={startGame}>Start Game</button>
-          <button onClick={goBack}>back to Lobby</button>
-      </main> }      
+      {!isStart &&
+        <WaitingRoom
+          roomID={roomID} 
+          groupInfo={groupInfo} 
+          roomInfo={roomInfo}
+          ready={ready}
+          startGame={startGame}
+          goBack={goBack}
+        /> 
+      }      
       {isStart && <main className={style.container}>
         <div className={style.head}>
           <p className={style.title}>Why We Climb</p>
@@ -141,7 +168,7 @@ export default function WaitRoom() {
             <p className={style.time} id="time"></p>
           
         </div>
-        <Engine stomp={stomp} roomId={roomID} userInfo={userInfo} groupInfo={groupInfo}/>
+        <Engine stomp={stomp} roomId={roomID} userInfo={userInfo} groupInfo={groupInfo} roomSeq={roomInfo.roomSeq}/>
         <div className={style.buttons}>
           <Link href={'/'} passHref>
             <a><h3>Back</h3></a>

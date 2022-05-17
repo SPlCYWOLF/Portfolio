@@ -15,7 +15,12 @@ export default function FindModal({handleClose}) {
   };
 
   const findRoom = () => {
-    axios.get(`${basicURL}/chat/room/${roomID}`)
+    const token = sessionStorage.getItem("token");
+    const headers = {
+      'Authorization': token,
+      mode: 'no-cors'
+    };
+    axios.get(`${basicURL}/room/${roomID}`,{headers:headers})
       .then(res=>res.data)
       .then(data=>{
         if(data !== ""){
@@ -35,7 +40,7 @@ export default function FindModal({handleClose}) {
         } else {
           toast.error("the room doesn't exist. Please check your room ID.");
         }
-        console.log(data);
+        // console.log(data);
       })
       .catch(err=>console.error(err))
   }
@@ -75,7 +80,7 @@ export default function FindModal({handleClose}) {
       <section className={style.modal}>
         <h2>Find room</h2>
         <div className={style.card}>
-          <label>search room 
+          <label className={style.smallfonts}>Search Room 
             <input type="text" required onChange={writeRoomID} /></label>
         </div>
 

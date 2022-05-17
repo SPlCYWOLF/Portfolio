@@ -24,6 +24,7 @@ export default function Login({toSignup, toModeSelect}) {
   }
 
   const handleLoginSubmit = () => {     // 로그인 버튼 누를시 post요청 (백에서 실패사유 알려주면 땡큐)
+    let flag_conf = false
     fetch('https://k6a401.p.ssafy.io/api/user/login', {
       method: "POST",
       body: JSON.stringify({
@@ -36,18 +37,25 @@ export default function Login({toSignup, toModeSelect}) {
       },
     })
     .then((response) => {
+      // console.log(response)
+      if(response.status==409){
+        toast.error("현재 접속중인 ID 입니다.")
+        flag_conf=true
+      }
       return response.json();
     })
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data.token) {
-        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
         initializeData();
         // alert(`로그인 성공 : ${data}`)
         toModeSelect();
       }
       else {
-        toast.error("ID or password is not valid..");
+        if(!flag_conf){
+          toast.error("ID or password is not valid..");
+        }
       }
     })
     .catch((error) => {
@@ -58,28 +66,32 @@ export default function Login({toSignup, toModeSelect}) {
   useEffect(() => {
     inputID.current.focus();
   }, [])
-
+  const onKeyPress=(e) => {
+    if(e.key=='Enter'){
+      handleLoginSubmit();
+    }
+  }
   return (
     <main className={style.container}>
-      <h1>why we climb</h1>
+      <text className={style.title}>why we climb</text>
       <div className={style.loginContainer}> 
         <section className={style.login}>
-          <h2 className={style.title}>Login</h2>
+          <text className={style.fonts}>Login</text>
           <div className={style.card}>
-            <label>Id 
+            <label  className={style.smallfonts}>Id 
               <input type="text" onChange={e => setUserID(e.target.value)} ref={inputID} required />
             </label>
           </div>
           <div className={style.card}>
-            <label>Password 
-              <input type="password" onChange={e => setUserPassword(e.target.value)} ref={pw} required />
+            <label className={style.smallfonts}>Password 
+              <input type="password" onChange={e => setUserPassword(e.target.value)} ref={pw} required onKeyDown={onKeyPress}/>
             </label>
           </div>
           <div className={style.btnGroup}>
             <button className={style.loginBtn} onClick={handleLoginSubmit} >Login</button>
             <div className={style.signBtnGroup}>
-              <div className={style.btns}>no account?</div>
-              <button className={style.signupBtn} onClick={toSignUp} >signup</button>
+              <div className={style.btns}>No account?</div>
+              <button className={style.signupBtn} onClick={toSignUp} >Sign up</button>
             </div>
           </div>
         </section>

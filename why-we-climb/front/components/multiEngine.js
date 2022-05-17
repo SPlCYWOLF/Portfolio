@@ -57,7 +57,7 @@ class Engine extends Component {
     let player;
     let myIdx;
     let level = 0;
-    let goalLevel = 7
+    let goalLevel = 2;
     let levelMax = 0;
     const stomp = this.props.stomp;
     const roomId = this.props.roomId;
@@ -481,7 +481,7 @@ class Engine extends Component {
                     let r = aabb.checkCollideBox(box);
                     if(r.collide)
                     {
-                        console.log("Goal!!!!")
+                        // console.log("Goal!!!!")
                     }
                 }
                 for (let b of blocks)
@@ -665,7 +665,7 @@ class Engine extends Component {
     // if(userInfo){
     //   window.onload = function ()
     //   {
-    //       console.log('load!!!!')
+    //       // console.log('load!!!!')
     //       socketConnect();
     //       init();
     //       run();
@@ -700,7 +700,7 @@ class Engine extends Component {
         {
             let mousePos = getMousePos(cvs, e);
             let message = mousePos.x + ', ' + mousePos.y;
-            console.log(message);
+            // console.log(message);
         }, false);
 
         // cvs.addEventListener('touchstart', function (e)
@@ -876,65 +876,7 @@ class Engine extends Component {
     //Make game levels
     function initLevels()
     {
-        blocks.push(new Block(0, new AABB(0, 0, 1000, 156)));
-        blocks.push(new Block(0, new AABB(330, 230, 150, 34)));
-        blocks.push(new Block(0, new AABB(710, 410, 116, 34)));
-        blocks.push(new Block(0, new AABB(330, 660, 150, 34)));
-        blocks.push(new Block(0, new AABB(70, 620, 150, 34)));
-
-        walls.push(new Wall(1, 200, 100, 0, 200));
-        blocks.push(new Block(1, new AABB(0, 200, 48, 34)));
-        blocks.push(new Block(1, new AABB(530, 200, 60, 34)));
-        blocks.push(new Block(1, new AABB(860, 200, 140, 34)));
-        blocks.push(new Block(1, new AABB(670, 570, 180, 90)));
-
-        blocks.push(new Block(2, new AABB(130, 10, 100, 45)));
-        blocks.push(new Block(2, new AABB(130, 300, 100, 45)));
-        blocks.push(new Block(2, new AABB(540, 535, 120, 45)));
-        blocks.push(new Block(2, new AABB(800, 615, 120, 45)));
-
-        blocks.push(new Block(3, new AABB(460, 10, 110, 34)));
-        blocks.push(new Block(3, new AABB(46, 236, 100, 34)));
-        //walls.push(new Wall(3, 300, 280, 0, -34));
-        //walls.push(new Wall(3, 300, 400, 0, -34));
-        walls.push(new Wall(3, 300, 400, -50, 150));
-        walls.push(new Wall(3, 300, 246, -50, -150));
-        walls.push(new Wall(3, 480, 550, 350, -52.5));
-        //walls.push(new Wall(3, 680, 520, 100, -15));
-        blocks.push(new Block(3, new AABB(890, 450, 110, 34)));
-
-        blocks.push(new Block(4, new AABB(390, 10, 90, 34)));
-        blocks.push(new Block(4, new AABB(90, 20, 150, 200)));
-        blocks.push(new Block(4, new AABB(510, 380, 150, 200)));
-        blocks.push(new Block(4, new AABB(850, 715, 150, 85)));
-
-        blocks.push(new Block(5, new AABB(850, 0, 150, 65)));
-        blocks.push(new Block(5, new AABB(800, 200, 99, 34)));
-        walls.push(new Wall(5, 505, 450, 25, -50));
-        walls.push(new Wall(5, 365, 450, -25, -50));
-        walls.push(new Wall(5, 340, 400, 0, -100));
-        walls.push(new Wall(5, 530, 400, 0, -240));
-        blocks.push(new Block(5, new AABB(340, 160, 190, 34)));
-        blocks.push(new Block(5, new AABB(50, 160, 80, 34)));
-        blocks.push(new Block(5, new AABB(160, 600, 80, 34)));
-        blocks.push(new Block(5, new AABB(160, 600, 80, 34)));
-        walls.push(new Wall(5, 87, 680, 50, 50));
-
-        walls.push(new Wall(6, 200, 280, 50, -50));
-        blocks.push(new Block(6, new AABB(50, 130, 80, 34)));
-        walls.push(new Wall(6, 310, 380, 50, 50));
-        blocks.push(new Block(6, new AABB(330, 130, 80, 34)));
-        blocks.push(new Block(6, new AABB(410, 130, 100, 200)));
-        walls.push(new Wall(6, 650, 140, 150, 0));
-        blocks.push(new Block(6, new AABB(908, 265, 100, 34)));
-        blocks.push(new Block(6, new AABB(500, 444, 150, 200)));
-        blocks.push(new Block(6, new AABB(50, 650, 100, 34)));
-
-        blocks.push(new Block(7, new AABB(100, 300, 100, 34)));
-        blocks.push(new Block(7, new AABB(520, 430, 100, 34)));
-        blocks.push(new Block(7, new AABB(877, 600, 100, 34)));
-        walls.push(new Wall(7, 715, 430, 0, 300));
-        goals.push(new Block(7, new AABB(877,634,100,34)))
+        
     }
     //플레이어의 위치 스테이지,이동처리가 됐을 때 바뀐 스테이정보, 다른 플레이어 정보(같은 스테이지에 있는), 최고높이는 둘다 가지고 있는게, 유저 토큰, 토큰값도 바꾸고, DB도 바꾸고
     //키입력 True False로 가능, while()
@@ -956,7 +898,7 @@ class Engine extends Component {
     {
         if (e.key === ' ' || e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
             inputkeys[e.key] = false;
-            // console.log(keys);
+            // // console.log(keys);
             // if(player.onGround)
             {
                 stomp.send('/pub/chat/message',{},JSON.stringify({type:'MOVE',id:userInfo.userSeq, roomCode:roomId,sender:userInfo.userId, space:inputkeys[" "], left:inputkeys['ArrowLeft'], right:inputkeys['ArrowRight'],
@@ -1068,7 +1010,7 @@ class Engine extends Component {
         
         if(level < levelMax){
             let stage = `stage${level+1}`
-            //console.log(stage)
+            //// console.log(stage)
             if(level==0 && x==0 && y==0){
                 
             }
@@ -1118,31 +1060,31 @@ class Engine extends Component {
     function socketConnect(){
         // stomp.connect({},
         //     function(){
-        //         console.log('stomp',stomp.webSocket._transport.url);
+        //         // console.log('stomp',stomp.webSocket._transport.url);
         //         const strings = stomp.webSocket._transport.url.split('/');
         //         const sessionId = strings[strings.length-2];
         //         stomp.subscribe(`/sub/chat/room/`+roomId, function(message){
-        //             console.log('message',message);
+        //             // console.log('message',message);
         //             var recv = JSON.parse(message.body);
         //             receiveMessage(recv);
         //         });
         //         stomp.send(`/pub/room/entrance`,{},JSON.stringify({roomCode:roomId, sessionId:sessionId, userSeq:userInfo.userSeq, userId:userInfo.userId}));
         //     },
         //     function(error){
-        //         console.log('error', error.headers.message);
+        //         // console.log('error', error.headers.message);
         //     }
         // )
-        console.log(stomp);
+        // console.log(stomp);
         stomp.subscribe('/sub/chat/room/' + roomId, function(message){
-            console.log('game Start!!');
+            // console.log('game Start!!');
             var recv = JSON.parse(message.body);
             receiveMessage(recv);
         })
     }
 
     function receiveMessage(msg){
-        console.log('msg',msg);
-        console.log('level!!!',level, levelMax);
+        // console.log('msg',msg);
+        // console.log('level!!!',level, levelMax);
         for (var i=0; i<groupInfo.length; i++){
             if(groupInfo[i].userSeq === msg.id){
                 if(players[i].x !== msg.x) {
@@ -1153,8 +1095,8 @@ class Engine extends Component {
                 }
                 const tempKeys = {" ":msg.space, ArrowLeft:msg.left, ArrowRight:msg.right};
                 players[i].keys = tempKeys;
-                console.log('x,y!!',players[i].x,players[i].y);
-                console.log('x,y!!!',msg.x, msg.y);
+                // console.log('x,y!!',players[i].x,players[i].y);
+                // console.log('x,y!!!',msg.x, msg.y);
                 break;
             }
         }

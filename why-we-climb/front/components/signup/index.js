@@ -34,7 +34,7 @@ export default function Signup ({toMain}) {
     setAvailableUserId(false);
     setValidUserPassword(false);
     setValidMatchPassword(false);
-    setErrorMsg([]);
+    setErrorMsg("");
   };
 
   const userIdCheck = (e) => {         // 아이디 중복 확인
@@ -89,34 +89,29 @@ export default function Signup ({toMain}) {
   // 왜 setErrorMsg 코드가 적용 안될까.. 
   const finalCheck = () => {          // 회원가입 버튼 눌렀을때 로직
     setErrorMsg("please check the followings:");
-
+    let errMsg = ""
     if (availableUserId && validUserPassword && validMatchPassword) {
       submitRegistration();
     }
     else {
       if (!availableUserId) {
-        addErrorID();
+        errMsg+='ID\n'
+        
       }
       if (!validUserPassword) {
-        addErrorPW();
+        errMsg+='Password\n'
+        
       }
       if (!validMatchPassword) {
-        addErrorPwConf();
+        errMsg+='Password confirm'
+        
       }
-      console.log(availableUserId, validUserPassword, validMatchPassword);
-      toast.error(errorMsg);
+      
+      toast.error(errMsg);
     }
   }
 
-  const addErrorID = () => {
-    setErrorMsg(`${errorMsg}\n   - ID`);
-  }
-  const addErrorPW = () => {
-    setErrorMsg(`${errorMsg}\n   - Password`);
-  }
-  const addErrorPwConf = () => {
-    setErrorMsg(`${errorMsg}\n   - PW confirm`);
-  }
+  
 
   const goBack = () => {
     initializeData();
@@ -148,26 +143,26 @@ export default function Signup ({toMain}) {
     <main className={style.signupContainer}>
       <div className={style.semiContainer}>
 
-        <h2>
-          signup
-        </h2>
+        <text className={style.fonts}>
+          Sign up
+        </text>
         <section className={style.signup}>
           <div className={style.card}>
-            <label>ID 
-              <input type="text" onChange={e => setUserId(e.target.value)} ref={inputID} placeholder="a-z,A-Z,0-9 / 3~20" required />
-              <button className={style.checkBtn} onClick={userIdCheck}>check ID</button>
+            <label className={style.smallfonts}>ID 
+              <input type="text" onChange={e => setUserId(e.target.value)} ref={inputID} placeholder="a-z, A-Z, 0-9 / 3~20" required />
+              <button className={style.checkBtn} onClick={userIdCheck}>Check ID</button>
             </label>
           </div>
           <div className={style.card}>
-            <label>Password <input type="password" onChange={e => setUserPassword(e.target.value)} ref={pw} placeholder="a-z,A-Z,0-9 / 8~24" required /></label>
+            <label className={style.smallfonts}>Password <input type="password" onChange={e => setUserPassword(e.target.value)} ref={pw} placeholder="a-z, A-Z, 0-9 / 8~24" required /></label>
           </div>
           <div className={style.card}>
-            <label>PW confirm <input type="password" onChange={e => setMatchPassword(e.target.value)} ref={pwConf} required /></label>
+            <label className={style.smallfonts}>PW Confirm <input type="password" onChange={e => setMatchPassword(e.target.value)} ref={pwConf} required /></label>
           </div>
         </section>
         <div className={style.btnGroup}>
-          <button className={style.signupBtn} onClick={finalCheck}>Signup!</button>
-          <button className={style.backBtn} onClick={goBack} >back</button>
+          <button className={style.signupBtn} onClick={finalCheck}>Sign up!</button>
+          <button className={style.backBtn} onClick={goBack}>Back</button>
         </div>
       </div>
     </main>

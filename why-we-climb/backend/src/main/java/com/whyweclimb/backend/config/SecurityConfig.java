@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	httpSecurity.csrf().disable();
     	httpSecurity.cors();
     	httpSecurity.authorizeRequests()
-    					.antMatchers("/user/information").access("hasRole('ROLE_USER')")
+    					.antMatchers("/user/information", "/single/level").access("hasRole('ROLE_USER')")
 	                    .antMatchers("/", "/oauth2/**", "/login/**", "/css/**",
 	                            "/images/**", "/js/**", "/console/**", "/favicon.ico/**"
 	                            ,"/v3/api-docs"
@@ -31,14 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                            ,"/user/id"
 	                            ,"/user/login"
 	                            ,"/user"
-	                            ,"/chat/message"
-	                            ,"/chat/**"
+	                            ,"/user/{userSeq}"
 	                            ,"/ws-stomp"
 	                            ,"/ws-stomp/**"
 	                            ,"/sub"
 	                            ,"/sub/**"
 	                            ,"/pub"
-	                            ,"/pub/**")
+	                            ,"/pub/**"
+	                            ,"/room/**")
 	                    .permitAll()
 	                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 	                    .anyRequest().authenticated()

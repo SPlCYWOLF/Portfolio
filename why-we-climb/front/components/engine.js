@@ -37,7 +37,7 @@ let currentTime = 0;
 let passedTime = 0;
 let msPerFrame = 1000.0 /70.0;
 
-const numResource = 27;
+const numResource = 35;
 let resourceLoaded = 0;
 let startTime;
 let playingTime;
@@ -59,6 +59,7 @@ const chargingConst = 600.0;
 let player;
 let userSeq;
 let flag = false;
+let flag2 = false;
 let level = 0;
 let levelMax = -1;
 let goalLevel = 7;
@@ -237,7 +238,7 @@ class Player {
     this.size = 32;
     this.radius = (this.size / 2.0) * 1.414;
     this.jumpGauge = 0;
-    this.skin = 1;
+    this.skin = 3;
   }
 
   aabb() {
@@ -259,7 +260,9 @@ class Player {
   }
 
   collideToLeft(w) {
-    this.x = w;
+    if(this.y+this.vy >=156){
+      this.x = w;
+    }
     this.vx *= -1 * boundFriction;
     audios.bounce.start();
   }
@@ -364,7 +367,8 @@ class Player {
         this.runningTime = 0;
       }
     }
-
+    
+    // console.log(this.onGround)
     //Apply gravity
     c = this.testCollide(0, -gravity);
     if (c.side == undefined) {
@@ -380,6 +384,11 @@ class Player {
     if (c.side != undefined) {
       if (c.side != "error") this.reponseCollide(c);
     }
+    if(this.y <156){
+      this.collideToBottom(156);
+      
+    } 
+    
   }
 
   testCollide(nvx, nvy) {
@@ -598,14 +607,19 @@ function init() {
     url:`https://k6a401.p.ssafy.io/api/user/information/`,
     method:'get',
     headers: {
-      "Authorization": localStorage.getItem("token")
+      "Authorization": sessionStorage.getItem("token")
     }
   }).then(res=>{
-    console.log(res.data)
+    // console.log(res.data)
     levelMax = res.data.maxLevel
     userSeq = res.data.userSeq
-    console.log(levelMax)
-    
+    // console.log(userSeq)
+    // console.log(levelMax)
+    if(res.data.skinSeq){
+      player.skin = res.data.skinSeq
+    }else{
+      player.skin = 1
+    }
   }).catch(err=>console.error(err))
   
   cvs = document.getElementById("cvs");
@@ -628,7 +642,7 @@ function init() {
     function (e) {
       let mousePos = getMousePos(cvs, e);
       let message = mousePos.x + ", " + mousePos.y;
-      console.log(message);
+      // console.log(message);
     },
     false
   );
@@ -841,9 +855,60 @@ function init() {
   images.running_2_L2.src = "/images/2/running_L2.png";
   images.running_2_L2.onload = function () {
     resourceLoaded++;
-    console.log("loadFinish")
+    // console.log("loadFinish")
   };
   //27
+  images.running_3_R1 = new Image();
+  images.running_3_R1.src = "/images/3/running_R1.png";
+  images.running_3_R1.onload = function () {
+    resourceLoaded++;
+  };
+  //28
+  images.running_3_R2 = new Image();
+  images.running_3_R2.src = "/images/3/running_R2.png";
+  images.running_3_R2.onload = function () {
+    resourceLoaded++;
+  };
+  //29
+  images.running_3_L1 = new Image();
+  images.running_3_L1.src = "/images/3/running_L1.png";
+  images.running_3_L1.onload = function () {
+    resourceLoaded++;
+  };
+  //30
+  images.running_3_L2 = new Image();
+  images.running_3_L2.src = "/images/3/running_L2.png";
+  images.running_3_L2.onload = function () {
+    resourceLoaded++;
+    // console.log("loadFinish")
+  };
+  //31
+  images.running_4_R1 = new Image();
+  images.running_4_R1.src = "/images/4/running_R1.png";
+  images.running_4_R1.onload = function () {
+    resourceLoaded++;
+  };
+  //32
+  images.running_4_R2 = new Image();
+  images.running_4_R2.src = "/images/4/running_R2.png";
+  images.running_4_R2.onload = function () {
+    resourceLoaded++;
+  };
+  //33
+  images.running_4_L1 = new Image();
+  images.running_4_L1.src = "/images/4/running_L1.png";
+  images.running_4_L1.onload = function () {
+    resourceLoaded++;
+  };
+  //34
+  images.running_4_L2 = new Image();
+  images.running_4_L2.src = "/images/4/running_L2.png";
+  images.running_4_L2.onload = function () {
+    resourceLoaded++;
+    // console.log("loadFinish")
+  };
+  //35
+  
 
 
   //Audios
@@ -888,7 +953,7 @@ function initLevels() {
   blocks.push(new Block(0, new AABB(330, 660, 150, 34)));
   blocks.push(new Block(0, new AABB(70, 620, 150, 34)));
 
-  walls.push(new Wall(1, 200, 100, 0, 200));
+  walls.push(new Wall(1, 200, 100, 0, 100));
   blocks.push(new Block(1, new AABB(0, 200, 48, 34)));
   blocks.push(new Block(1, new AABB(530, 200, 60, 34)));
   blocks.push(new Block(1, new AABB(860, 200, 140, 34)));
@@ -1104,38 +1169,39 @@ class Engine extends Component {
   }
   
   reset() {
-    console.log("reset??")
+    // console.log("reset??")
     player.x = (WIDTH - 32) / 2.0
     player.y = 156
   }
   
   componentDidMount() {
-    console.log("onload");
+    // console.log("onload");
     
     init();
-    //console.log(localStorage,"localStorage")
+    //// console.log(sessionStorage,"sessionStorage")
     playingTime = document.getElementById("time");
     
     this.run();
   }
   openModal = () => {
-    // console.log("abcd")
+    // // console.log("abcd")
+    // console.log(userSeq)
+    // console.log(levelMax)
     axios({
       url:`https://k6a401.p.ssafy.io/api/single/level/`,
       method:'POST',
       headers: {
-        "Authorization": localStorage.getItem("token")
+        "Authorization": sessionStorage.getItem("token")
       },
       data:{
         "backgroundSound": 50,
         "effectSound": 50,
         "maxLevel":levelMax,
         "userSeq": userSeq,
-        
+        "skinSeq":player.skin
       }
     }).then(res=>{
-      
-      console.log(res)
+      // console.log(res)
       
     }).catch(err=>console.error(err))
     this.setState({Modalshow:true})
@@ -1150,11 +1216,12 @@ class Engine extends Component {
   }
   
   componentWillUnmount() {
+    flag2 = true
     axios({
       url:`https://k6a401.p.ssafy.io/api/single/level/`,
       method:'POST',
       headers: {
-        "Authorization": localStorage.getItem("token")
+        "Authorization": sessionStorage.getItem("token")
       },
       data:{
         "backgroundSound": 50,
@@ -1164,7 +1231,7 @@ class Engine extends Component {
         
       }
     }).then(res=>{
-      console.log(res)
+      // console.log(res)
       
     }).catch(err=>console.error(err))
   }
@@ -1181,9 +1248,11 @@ class Engine extends Component {
       update(msPerFrame);
       rendering();
       passedTime -= msPerFrame;
-      
+      if(flag2){
+        return;
+      }
       if(flag){
-        console.log(startTime)
+        // console.log(startTime)
         levelMax = 8
         this.openModal()
         
@@ -1194,7 +1263,7 @@ class Engine extends Component {
       
       this.openModal()
     }
-    if(!flag){
+    if(!flag&&!flag2){
       requestAnimationFrame(this.run.bind(this));
     }
   }
@@ -1208,7 +1277,7 @@ class Engine extends Component {
         <canvas id="cvs" width="1000" height="800" />
         <div className={style.buttons}>
           <a className={style.h3button} onClick={()=>{
-            console.log("reset?")
+            // console.log("reset?")
             this.reset()
           }}><h3>Reset</h3></a>
           <Link href={'/'} passHref>

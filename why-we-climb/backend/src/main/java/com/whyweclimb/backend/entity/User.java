@@ -37,7 +37,23 @@ public class User implements UserDetails{
 	@Column
 	@ColumnDefault("0")
 	private Integer maxLevel;
+	@Column
+	@ColumnDefault("1")
+	private Integer skinSeq;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof User) {
+			return this.userId.equals(((User)obj).getUserId());
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.userId.hashCode();
+	}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
