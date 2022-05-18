@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router"
-import style from '../../styles/waitRoom.module.css';
+import style from './multiGame.module.css';
 import axios from 'axios'
 import Link from 'next/link';
 import SockJS from 'sockjs-client';
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import WaitingRoom from "../../components/multi/waitingRoom";
-
+import toast from "react-hot-toast";
 
 
 const StompJS = require('@stomp/stompjs');
@@ -29,6 +29,7 @@ export default function WaitRoom() {
   const [roomInfo, setRoomInfo] = useState();
   const [groupInfo, setGroupInfo] = useState();
   const [isReady, setIsReady] = useState();
+  const [sessionId, setSessionId] = useState();
 
   // function sendMessage(msg){
   //   // console.log('hii');
@@ -75,7 +76,7 @@ export default function WaitRoom() {
     axios.get(`${basicURL}/user/${data.userSeq}`,{headers:headers})
       .then(res=> console.log('confirmed!!',res))
       .catch(err=>{
-        alert("이미 로그인이 되어 있습니다.");
+        toast.error("your account is currently in use.");
         window.sessionStorage.clear();
         location.href="/";
       })
@@ -88,6 +89,7 @@ export default function WaitRoom() {
         // console.log('stomp',stomp.webSocket._transport.url);
         const strings = stomp.webSocket._transport.url.split('/');
         const sessionId = strings[strings.length-2];
+        setSessionId(sessionId)
         stomp.subscribe(`/sub/room/`+roomID, function(message){
             // console.log('here !!!message',message);
             var recv = JSON.parse(message.body);
@@ -112,17 +114,19 @@ export default function WaitRoom() {
       .then(res => res.json())
       .then(data => {socketConnect(data);userConfirm(data);setUserInfo(data)})
       .catch(err => {
-        alert("다시 로그인을 해주세요");
+        toast.error("Please login again.");
         sessionStorage.removeItem("token");
         location.href="/";        
       })
   }
 
   function goBack(){
+    axios.post(`${basicURL}/exit/${sessionId}`)
     stomp.disconnect(function(){
-      alert("go back~");
+      toast("You left the room.", {icon: "🚪"});
       location.href="/multi";
     })
+    
   }
   
   useEffect(()=>{
@@ -140,11 +144,20 @@ export default function WaitRoom() {
             setRoomInfo(data);
             getUserInfo();
           } else {
-            alert("존재하지 않는 방입니다.");
+            toast("The room doesn't exist!", {icon: "✨"});
             location.href="/multi";
           }
         })
         .catch(err => console.error(err))
+      
+    }
+    return () => {
+      console.log(sessionId)
+      axios.post(`${basicURL}}/exit/${sessionId}`)
+      stomp.disconnect(function(){
+        location.href="/multi";
+      })
+      
     }
   },roomID)
 
@@ -171,7 +184,7 @@ export default function WaitRoom() {
         <Engine stomp={stomp} roomId={roomID} userInfo={userInfo} groupInfo={groupInfo} roomSeq={roomInfo.roomSeq}/>
         <div className={style.buttons}>
           <Link href={'/'} passHref>
-            <a><h3>Back</h3></a>
+            <a><h3 className={style.resultText}>Back</h3></a>
           </Link>
         </div>
       </main>}

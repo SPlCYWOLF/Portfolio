@@ -38,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                            ,"/sub/**"
 	                            ,"/pub"
 	                            ,"/pub/**"
-	                            ,"/room/**")
+	                            ,"/room/**"
+	                            ,"/exit/{sessionId}"
+	                            ,"/single/entrance")
 	                    .permitAll()
 	                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 	                    .anyRequest().authenticated()

@@ -1,14 +1,11 @@
 package com.whyweclimb.backend.domain.user.controller;
 
-import com.whyweclimb.backend.domain.user.dto.UserUpdateRequest;
+import com.whyweclimb.backend.domain.user.dto.UserRecordUpdateRequest;
 import com.whyweclimb.backend.domain.user.service.SingleGameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,9 +14,13 @@ public class SingleGameController {
 
     private final SingleGameService singleGameService;
 
-    @PostMapping("/level")
-    public ResponseEntity<Boolean> settingUserLevel(@RequestBody UserUpdateRequest request){
-        System.out.println(request.getMaxLevel());
-        return new ResponseEntity<Boolean>(singleGameService.setUserLevel(request), HttpStatus.OK);
+    @PostMapping("/record")
+    public ResponseEntity<Boolean> settingUserRecord(@RequestBody UserRecordUpdateRequest request){
+        return new ResponseEntity<Boolean>(singleGameService.setUserRecord(request), HttpStatus.OK);
+    }
+
+    @PostMapping("/entrance")
+    public void countSingleModeEntrance() {
+    	singleGameService.countSingleModeEntrance();
     }
 }
