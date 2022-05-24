@@ -204,7 +204,7 @@
 
       <br>
 
-   3. <detail> <summary>새로운 펀딩 등록 시 실시간 반영 기능 부재 => Incremental Site Regeneration (ISR) 활용하여 해결</summary>
+   3. <detail> <summary>새로운 펀딩 등록 시 실시간 반영 기능 부재 => Incremental Site Regeneration (ISR) 활용하여 해결?</summary>
 
       - 마무리 단계에서 테스트를 하던 중, 생성한 펀딩이 실시간으로 반영되지 않는 문제를 발견했습니다.
         Static Site Generation 을 활용한터라, 빌드시 펀딩 상품 정보들이 화면에 그려지는게 원인이였습니다.
