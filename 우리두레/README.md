@@ -11,16 +11,16 @@
 ## **기술 스택**
 
 ### **Frontend**
-![image](/uploads/c2555911b2b0cd18a38993213fb37528/image.png)
+![image](https://lab.ssafy.com/s06-blockchain-sub2/S06P22A305/uploads/c2555911b2b0cd18a38993213fb37528/image.png)
 
 ### **Backend**
-![image](/uploads/1533e70746de904993e96f3caba80c17/image.png)
+![image](https://lab.ssafy.com/s06-blockchain-sub2/S06P22A305/uploads/1533e70746de904993e96f3caba80c17/image.png)
 
 ### **DevOps**
-![image](/uploads/b959ad0f61cf23710a0bbb8a2b2bdb34/image.png)
+![image](https://lab.ssafy.com/s06-blockchain-sub2/S06P22A305/uploads/b959ad0f61cf23710a0bbb8a2b2bdb34/image.png)
 
 ### **Co-tool**
-![image](/uploads/5fe7acaaaf25eff9f3596f0b62404bd1/image.png)
+![image](https://lab.ssafy.com/s06-blockchain-sub2/S06P22A305/uploads/5fe7acaaaf25eff9f3596f0b62404bd1/image.png)
 
 
 

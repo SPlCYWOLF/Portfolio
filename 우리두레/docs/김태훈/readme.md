@@ -26,9 +26,13 @@
 
            <img width="100%" src="readme.assets/detail_page.gif">
 
+         
+
          - 해당 펀딩 관련 공지사항 생성 및 조회
 
            <img width="100%" src="readme.assets/announcement_page.gif">
+
+         
 
          - 해당 펀딩 관련 QnA 생성 및 조회
 
@@ -41,9 +45,9 @@
        - 후원하기 페이지 (펀딩 목록 페이지) 담당
 
          - 펀딩의 카테고리 navbar 제공
-
+       
          - 펀딩 상세페이지로 라우팅 되는 펀딩 상품 카드 제공
-
+       
            <img width="100%" src="readme.assets/support_page.gif">
 
 
