@@ -12,11 +12,11 @@
 
 ##### ✨팀구성✨
 
- - 우 윤 석   ⇒   팀장, frontend & game modeling
+ - 우 윤 석   ⇒   팀장, frontend & game
 
- - 김 태 훈   ⇒   팀원, frontend & front design
+ - 김 태 훈   ⇒   팀원, frontend & web page
 
- - 정      찬   ⇒   팀원, frontend  & webSocket front
+ - 정      찬   ⇒   팀원, frontend  & webSocket
 
  - 김 민 준   ⇒   팀원, backend & devOps
 
