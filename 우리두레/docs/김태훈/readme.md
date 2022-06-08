@@ -207,10 +207,10 @@
    3. <detail> <summary>새로운 펀딩 등록 시 실시간 반영 기능 부재 => Incremental Site Regeneration (ISR) 활용하여 해결?</summary>
 
       - 마무리 단계에서 테스트를 하던 중, 생성한 펀딩이 실시간으로 반영되지 않는 문제를 발견했습니다.
-        Static Site Generation 을 활용한터라, 빌드시 펀딩 상품 정보들이 화면에 그려지는게 원인이였습니다.
-        고로 새로운 펀드 상품들을 반영하기 위해서는 front-end 를 rebuild 할 필요가 있었습니다.
+        그것도 당연하것이, 저는 빠른 페이지 로드를 위해 펀딩 상품 정보들을 빌드시에만 호출하여 static page를 만들었기 때문입니다.
+        다시말해, 새로운 펀드 상품들을 반영하기 위해서는 front-end 를 rebuild 할 필요가 있었습니다.
         
-      - 이에대한 해결책으로서 Incremental Site Regeneration (ISR)을 활용하여 해결할 수 있을거라 생각합니다.
+      - 이에대한 해결책으로서 Incremental Site Regeneration (ISR)을 활용하여 해결할 수 있을거라 생각했습니다.
         이는 지정한 주기로 Server-side rendering을 진행하여 새롭게 update된 펀딩 상품을 front-end에 반영해주는 next.js의 비교적 최신 기능입니다.
         
       - 하지만 해당 방법도 완벽한 대안은 하니라 생각합니다.
@@ -219,41 +219,7 @@
         
         이는 캐시된 페이지 버전의 일관성을 깨뜨리기 떄문에, 다른 버전의 데이터 페이지로 라우팅이 되는 등, 예상 못할 버그가 발생할 여지가 생깁니다.
         또한 이러한 문제는 디버깅 하기도 까다로운데, 개발자와 문제를 겪고있는 사용자가 같은 버전의 캐시된 페이지를 바라보고 있지 않을 수 있기 떄문입니다.
-        결론적으로 ISR도 생성한 펀딩을 실시간으로 반영 시킬 수 있는 이상적인 해결책은 아니라고 생각하며,
-        고로, 이 부분에 대해서는 조금 더 공부가 필요합니다.
-      
-      </detail>
-      
-      <br>
-      
-   4. <detail> <summary>SSR 캐싱 활용하여 메인 페이지 로딩 속도 향상</summary>
-
-      - 외부에 request 횟수를 줄임으로써 응답속도 향상 => UX up
-        
-      - Next.js는 `/_next/static` 경로의 에셋들 (JS, CSS, 정적이미지, 미디어 파일들)  + 정적 페이지는 
-        자동으로 캐싱 헤더에 추가해줌.
-        
-      - 정적 페이지를 `revalidate` 하고싶다면, `getStaticProps()` 함수에 `revalidate` 값을 설정.
-        revalidate : 최신 정보를 캐싱 헤더에 추가하는 작업
-        
-      - `stale-while-revalidate` 를 활용하면, `getServerSideProps()` 함수로 SSR 캐싱 커스터마이즈 가능.
-   
-        ```react
-        export async function getServerSideProps({ req, res }) {
-          res.setHeader(
-            'Cache-Control',
-            'public, s-maxage=10, stale-while-revalidate=59'
-          )
-
-          return {
-            props: {},
-          }
-        }
-        ```
-      
-      - **BUT**
-        SSR 캐싱을 활용하기 위해선 배포 provider가 캐싱된 데이터를 동적으로 response 해줘야 하는데,
-        Redis 와 같은 key/value DB를 활용하거나, 호스팅 프로그램으로 Vercel을 활용하는 방법이 있다.
+        결론적으로 ISR도 생성한 펀딩을 실시간으로 반영 시킬 수 있는 이상적인 해결책은 아니라고 생각합니다. [참고자료](https://www.netlify.com/blog/2021/03/08/incremental-static-regeneration-its-benefits-and-its-flaws/)
       
       </detail>
       
