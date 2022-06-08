@@ -237,6 +237,19 @@
         revalidate : 최신 정보를 캐싱 헤더에 추가하는 작업
         
       - `stale-while-revalidate` 를 활용하면, `getServerSideProps()` 함수로 SSR 캐싱 커스터마이즈 가능.
+   
+        ```react
+        export async function getServerSideProps({ req, res }) {
+          res.setHeader(
+            'Cache-Control',
+            'public, s-maxage=10, stale-while-revalidate=59'
+          )
+
+          return {
+            props: {},
+          }
+        }
+        ```
       
       - **BUT**
         SSR 캐싱을 활용하기 위해선 배포 provider가 캐싱된 데이터를 동적으로 response 해줘야 하는데,
