@@ -225,6 +225,26 @@
       </detail>
       
       <br>
+      
+   4. <detail> <summary>SSR 캐싱 활용하여 메인 페이지 로딩 속도 향상</summary>
+
+      - 외부에 request 횟수를 줄임으로써 응답속도 향상 => UX up
+        
+      - Next.js는 `/_next/static` 경로의 에셋들 (JS, CSS, 정적이미지, 미디어 파일들)  + 정적 페이지는 
+        자동으로 캐싱 헤더에 추가해줌.
+        
+      - 정적 페이지를 `revalidate` 하고싶다면, `getStaticProps()` 함수에 `revalidate` 값을 설정.
+        revalidate : 최신 정보를 캐싱 헤더에 추가하는 작업
+        
+      - `stale-while-revalidate` 를 활용하면, `getServerSideProps()` 함수로 SSR 캐싱 커스터마이즈 가능.
+      
+      - **BUT**
+        SSR 캐싱을 활용하기 위해선 배포 provider가 캐싱된 데이터를 동적으로 response 해줘야 하는데,
+        Redis 와 같은 key/value DB를 활용하거나, 호스팅 프로그램으로 Vercel을 활용하는 방법이 있다.
+      
+      </detail>
+      
+      <br>
 
    <br>
 
