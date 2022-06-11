@@ -5,7 +5,7 @@
 
    목차:
 
-   - [자기소개](#자기소개)
+   - [상세기여사항](#상세기여사항)
    - [마주한이슈들](#마주한이슈들)
    - [추후개선안](#추후개선안)
    - [프로젝트후기](#프로젝트후기)
@@ -14,41 +14,37 @@
 
    <br>
 
-   ### 자기소개
+   ### 상세기여사항
 
-   - Front-end 담당
+- 펀딩 상세페이지 담당
 
-     - <detail> <summary>김태훈</summary>
+  - 펀딩 상품의 상세정보 제공 & 해당 펀딩 상품의 옵션 제공
 
-       - 펀딩 상세페이지 담당
+    <img width="100%" src="readme.assets/detail_page.gif">
 
-         - 펀딩 상품의 상세정보 제공 & 해당 펀딩 상품의 옵션 제공
+  
 
-           <img width="100%" src="readme.assets/detail_page.gif">
+  - 해당 펀딩 관련 공지사항 생성 및 조회
 
-         
+    <img width="100%" src="readme.assets/announcement_page.gif">
 
-         - 해당 펀딩 관련 공지사항 생성 및 조회
+  
 
-           <img width="100%" src="readme.assets/announcement_page.gif">
+  - 해당 펀딩 관련 QnA 생성 및 조회
 
-         
+    <img width="100%" src="readme.assets/qna_page.gif">
 
-         - 해당 펀딩 관련 QnA 생성 및 조회
+  - 공지사항과 QnA 생성을 위한 모달창 제공
 
-           <img width="100%" src="readme.assets/qna_page.gif">
+  <br>
 
-         - 공지사항과 QnA 생성을 위한 모달창 제공
+- 후원하기 페이지 (펀딩 목록 페이지) 담당
 
-         <br>
+  - 펀딩의 카테고리 navbar 제공
 
-       - 후원하기 페이지 (펀딩 목록 페이지) 담당
+  - 펀딩 상세페이지로 라우팅 되는 펀딩 상품 카드 제공
 
-         - 펀딩의 카테고리 navbar 제공
-       
-         - 펀딩 상세페이지로 라우팅 되는 펀딩 상품 카드 제공
-       
-           <img width="100%" src="readme.assets/support_page.gif">
+    <img width="100%" src="readme.assets/support_page.gif">
 
 
          <br>
@@ -194,41 +190,60 @@
    2. <detail> <summary>정말 난잡했던 상태관리 => 상태관리 라이브러리 활용하여 개선</summary>
 
       - 심플하게 상태 관리가 너무 난잡했습니다.
+
         코드의 가독성, 재사용성, 비동기 작업 로직의 직관성, 디버깅 환경 개선, 등 을 위해서 modular design 에 기반하여 개발을 진행했습니다.
+
         그러다보니 필연적으로 props drilling 현상이 너무나도 자주 일어났고, 상태 정보의 이동 과정이 복잡해지는 만큼 잦은 휴먼에러가 있었고, 가독성도 매우 떨어졌습니다.
+
       - 다음에는 Redux와 같은 상태관리 라이브러리를 활용하여 modular design을 준수함과 동시에 조금더 클린한 상태관리를 구현할 수 있다면, modular design의 장점을 가져감과 동시에 코드의 가독성, 디버깅 환경 개선, 등 DX적인 면에서 개선의 여지가 많지 않을까 생각했습니다.
+
       - 또한, 글로벌 상태정보 관리 방법은 개발 들어가기 전에 확립해야한다는 것을 뼈저리게 느꼈습니다.
+
         그래야만이 팀원간의 상태정보 collision 없이, 구현 테스트도 바로바로 할 수 있어서 조금 더 원활한 개발이 진행될거라 생각했습니다.
 
       </detail>
 
       <br>
 
-   3. <detail> <summary>새로운 펀딩 등록 시 실시간 반영 기능 추가 방법 : Incremental Site Regeneration (hybrid render) vs SWR 활용한 SSR caching</summary>
+   3. <detail> <summary>새로운 펀딩 등록 시 실시간 반영 기능 추가 방법</summary>
 
-      - 마무리 단계에서 테스트를 하던 중, 생성한 펀딩이 실시간으로 반영되지 않는 문제를 발견했습니다.
-        그것도 당연하것이, 저는 빠른 페이지 로드를 위해 펀딩 상품 정보들을 빌드시에만 호출하여 static page를 만들었기 때문입니다.
-        다시말해, 새로운 펀드 상품들을 반영하기 위해서는 front-end 를 rebuild 할 필요가 있었습니다.
-        
-      - 이에대한 해결책으로서 Incremental Site Regeneration (ISR)을 활용하여 해결할 수 있을거라 생각했습니다.
-        이는 지정한 주기로 Server-side rendering을 진행하여 새롭게 update된 펀딩 상품을 front-end에 반영해주는 next.js의 비교적 최신 기능입니다.
-        
-      - 하지만 해당 방법도 완벽한 대안은 하니라 생각합니다.
-        ISR 은 아래와 같이 atomic and immutable 배포의 구조를 허물게 됩니다. 
-        <img src="readme.assets/isr.png">
-        
-        이는 캐시된 페이지 버전의 일관성을 깨뜨리기 떄문에, 다른 버전의 데이터 페이지로 라우팅이 되는 등, 예상 못할 버그가 발생할 여지가 생깁니다.
-        또한 이러한 문제는 디버깅 하기도 까다로운데, 개발자와 문제를 겪고있는 사용자가 같은 버전의 캐시된 페이지를 바라보고 있지 않을 수 있기 떄문입니다.
-        결론적으로 ISR도 생성한 펀딩을 실시간으로 반영 시킬 수 있는 이상적인 해결책은 아니라고 생각합니다. [참고자료](https://www.netlify.com/blog/2021/03/08/incremental-static-regeneration-its-benefits-and-its-flaws/)
-        대안으로써 생각해 볼 수 있는것은 Stale-While-Revalidation 리액트훅 라이브러리를 활용한 SSR캐싱입니다.
-        해당 방법은 아래의 구조와 같이, 페이지 최신화가 필요해지면 먼저 캐싱된 이전 버전의 정보를 보여준 이후 되는데로 페이지를 최신화 시켜줍니다.
-        <img src="https://bs-uploads.toptal.io/blackfish-uploads/uploaded_file/file/167418/image-1579535436801-78c658f57da8a1b95d58fb2da9fa35a5.png">
-        이는 통상적인 SSR처럼 페이지 최신화가 되기 전 까지 화면이 멈추지도, 새로고침을 해야만이 최신화가 적용되지도 않아 UX개선을 기대할 수 있는 방법입니다.
-        하지만, 해당 방법은 SSR의 고질적인 문제점인 페이지 정보를 최신화 하기까지 시간이 걸린다는 점 입니다.
+      - Incremental Site Regeneration (hybrid render)
       
-      </detail>
+        - 마무리 단계에서 테스트를 하던 중, 생성한 펀딩이 실시간으로 반영되지 않는 문제를 발견했습니다.
       
-      <br>
+          그것도 당연하것이, 저는 빠른 페이지 로드를 위해 펀딩 상품 정보들을 빌드시에만 호출하여 static page를 만들었기 때문입니다.
+      
+          다시말해, 새로운 펀드 상품들을 반영하기 위해서는 front-end 를 rebuild 할 필요가 있었습니다.
+      
+        - 이에대한 해결책으로서 Incremental Site Regeneration (ISR)을 활용하여 해결할 수 있을거라 생각했습니다.
+      
+          이는 지정한 주기로 Server-side rendering을 진행하여 새롭게 update된 펀딩 상품을 front-end에 반영해주는 next.js의 비교적 최신 기능입니다.
+      
+        - 하지만 해당 방법도 완벽한 대안은 하니라 생각합니다.
+          ISR 은 아래와 같이 atomic and immutable 배포의 구조를 허물게 됩니다. 
+          <img src="readme.assets/isr.png">
+      
+          이는 캐시된 페이지 버전의 일관성을 깨뜨리기 떄문에, 다른 버전의 데이터 페이지로 라우팅이 되는 등, 예상 못할 버그가 발생할 여지가 생깁니다.
+      
+          또한 이러한 문제는 디버깅 하기도 까다로운데, 개발자와 문제를 겪고있는 사용자가 같은 버전의 캐시된 페이지를 바라보고 있지 않을 수 있기 떄문입니다.
+      
+          <u>결론적으로 ISR도 생성한 펀딩을 실시간으로 반영 시킬 수 있는 이상적인 해결책은 아니라고 생각합니다</u>. [참고자료](https://www.netlify.com/blog/2021/03/08/incremental-static-regeneration-its-benefits-and-its-flaws/)
+      
+      - Stale-While-Revalidate을 활용한 SSR caching
+      
+        - 대안으로써 생각해 볼 수 있는것은 Stale-While-Revalidation 리액트훅 라이브러리를 활용한 SSR캐싱입니다.
+      
+          해당 방법은 아래의 구조와 같이, 페이지 최신화가 필요해지면 먼저 캐싱된 이전 버전의 정보를 보여준 이후 되는데로 페이지를 최신화 시켜줍니다. [참고자료](https://www.toptal.com/react-hooks/stale-while-revalidate#:~:text=.-,How,Works,-When%20a%20request)
+          <img src="https://bs-uploads.toptal.io/blackfish-uploads/uploaded_file/file/167418/image-1579535436801-78c658f57da8a1b95d58fb2da9fa35a5.png">
+      
+          이는 통상적인 SSR처럼 페이지 최신화가 되기 전 까지 화면이 멈추지도, 새로고침을 해야만이 최신화가 적용되지도 않아 UX개선을 기대할 수 있는 방법입니다.
+      
+          <u>하지만, 해당 방법은 SSR의 고질적인 문제점인 페이지 정보를 최신화 하기까지 시간이 걸린다는 점 입니다.</u>
+      
+        </detail>
+      
+        <br>
+      
 
    <br>
 
