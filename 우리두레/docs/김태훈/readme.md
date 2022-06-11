@@ -90,7 +90,7 @@
 
    1. <detail> <summary><u>비동기 작업으로 인한 상태정보 관리 문제</u>  : 사용자 정보 상태관리에서 발생한 이슈</summary>
 
-      - ```react
+      - ```JSX
         // [ setUserSeq 함수로 userSeq의 상태값이 반영되기 전에 if문으로 들어가버려 setIsLoggedIn 함수가 실행되지 않는 문제 ]
         const [userSeq, setUserSeq] = useState('');
         
@@ -110,7 +110,7 @@
           }
         ```
 
-        ```react
+        ```JSX
         // [ callback 함수로, 함수 실행 순서를 정의해도 될것 같았습니다만, 가독성이 떨어져 보였습니다. ]
         ...
         	setUserSeq(temp.userSeq, function () {
@@ -121,7 +121,7 @@
         ...
         ```
 
-        ```react
+        ```JSX
         // [ 결론적으로 if 문의 condition을, 애초에 fetch하여 받아오게 되는 temp의 정보로 변경하여 해결하였습니다. ]
         ...
             if (temp.userSeq) {
@@ -140,7 +140,7 @@
 
    1. <detail> <summary>빌드 시 모든 상세 펀딩 페이지의 dynamic route 생성 => 빌드 시 dynamic하게 생성할 상세 펀딩 페이지 개수 제한</summary>
 
-      - ```react
+      - ```JSX
         // [ 기존에는 생성할 상세 펀딩 페이지 수 가 적어 모든 dynamic paths 를 빌드 시 생성하였습니다. ]
         
         export const getStaticPaths = async () => {
@@ -160,7 +160,7 @@
         }
         ```
 
-      - ```react
+      - ```JSX
         // [ 하지만 추후 수백개의 펀딩 상품페이지의 dynamic paths를 전부 빌드시 static site generation 하는건, 
         // 빌드 시간이 늘어나 원활한 CD/CI에 악영향이 있을거라 생각했습니다. ]
         
@@ -204,7 +204,7 @@
 
       <br>
 
-   3. <detail> <summary>새로운 펀딩 등록 시 실시간 반영 기능 부재 => Incremental Site Regeneration (ISR) 활용하여 해결?</summary>
+   3. <detail> <summary>새로운 펀딩 등록 시 실시간 반영 기능 추가 방법 : Incremental Site Regeneration (hybrid render) vs SWR 활용한 SSR caching</summary>
 
       - 마무리 단계에서 테스트를 하던 중, 생성한 펀딩이 실시간으로 반영되지 않는 문제를 발견했습니다.
         그것도 당연하것이, 저는 빠른 페이지 로드를 위해 펀딩 상품 정보들을 빌드시에만 호출하여 static page를 만들었기 때문입니다.
@@ -220,6 +220,11 @@
         이는 캐시된 페이지 버전의 일관성을 깨뜨리기 떄문에, 다른 버전의 데이터 페이지로 라우팅이 되는 등, 예상 못할 버그가 발생할 여지가 생깁니다.
         또한 이러한 문제는 디버깅 하기도 까다로운데, 개발자와 문제를 겪고있는 사용자가 같은 버전의 캐시된 페이지를 바라보고 있지 않을 수 있기 떄문입니다.
         결론적으로 ISR도 생성한 펀딩을 실시간으로 반영 시킬 수 있는 이상적인 해결책은 아니라고 생각합니다. [참고자료](https://www.netlify.com/blog/2021/03/08/incremental-static-regeneration-its-benefits-and-its-flaws/)
+        대안으로써 생각해 볼 수 있는것은 Stale-While-Revalidation 리액트훅 라이브러리를 활용한 SSR캐싱입니다.
+        해당 방법은 아래의 구조와 같이, 페이지 최신화가 필요해지면 먼저 캐싱된 이전 버전의 정보를 보여준 이후 되는데로 페이지를 최신화 시켜줍니다.
+        <img src="https://bs-uploads.toptal.io/blackfish-uploads/uploaded_file/file/167418/image-1579535436801-78c658f57da8a1b95d58fb2da9fa35a5.png">
+        이는 통상적인 SSR처럼 페이지 최신화가 되기 전 까지 화면이 멈추지도, 새로고침을 해야만이 최신화가 적용되지도 않아 UX개선을 기대할 수 있는 방법입니다.
+        하지만, 해당 방법은 SSR의 고질적인 문제점인 페이지 정보를 최신화 하기까지 시간이 걸린다는 점 입니다.
       
       </detail>
       
