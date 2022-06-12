@@ -16,6 +16,16 @@
 
    ### 상세기여사항
 
+- 후원하기 페이지 (펀딩 목록 페이지) 담당
+
+  - 펀딩의 카테고리 navbar 제공
+
+  - 펀딩 상세페이지로 라우팅 되는 펀딩 상품 카드 제공
+
+    <img width="100%" src="readme.assets/support_page.gif">
+
+   <br>
+   
 - 펀딩 상세페이지 담당
 
   - 펀딩 상품의 상세정보 제공 & 해당 펀딩 상품의 옵션 제공
@@ -38,45 +48,32 @@
 
   <br>
 
-- 후원하기 페이지 (펀딩 목록 페이지) 담당
+ - 결제페이지 담당
 
-  - 펀딩의 카테고리 navbar 제공
+   - 결제 프로세스 navbar 제공
 
-  - 펀딩 상세페이지로 라우팅 되는 펀딩 상품 카드 제공
+   - 수령자 정보 입력 컴포넌트 제공
 
-    <img width="100%" src="readme.assets/support_page.gif">
+     <img width="100%" src="readme.assets/order_page1.gif">
 
+     <img width="100%" src="readme.assets/order_page2.gif">
 
-         <br>
-    
-       - 결제페이지 담당
-    
-         - 결제 프로세스 navbar 제공
-    
-         - 수령자 정보 입력 컴포넌트 제공
-    
-           <img width="100%" src="readme.assets/order_page1.gif">
-    
-           <img width="100%" src="readme.assets/order_page2.gif">
-    
-         - 수령자 주소 입력창 Daum 우편번호 서비스 api와 연동하여 모달창으로 제공
-    
-         - 전화번호 입력창에서 자동 " - " 입력 제공
-    
-           <img width="100%" src="readme.assets/order_page3.gif">
-    
-         - 선택된 펀딩 상품 옵션 및 수령자 정보의 상태정보 관리
-    
-         - 최종확인 컴포넌트에 선택된 펀딩 상품 정보 반영
-    
-         <br>
-    
-       - 사용자 상태정보 관리 및 로그인 페이지 (OAuth 로직 제외) 담당
-    
-         - 플랫폼 별 OAuth 로그인 지침에 준수한 로그인 페이지 제공
-         - 페이지 새로고침 될 때마다 로그인 상태 정보 확인 및 변경점 반영 로직 제공
-    
-         </detail>
+   - 수령자 주소 입력창 Daum 우편번호 서비스 api와 연동하여 모달창으로 제공
+
+   - 전화번호 입력창에서 자동 " - " 입력 제공
+
+     <img width="100%" src="readme.assets/order_page3.gif">
+
+   - 선택된 펀딩 상품 옵션 및 수령자 정보의 상태정보 관리
+
+   - 최종확인 컴포넌트에 선택된 펀딩 상품 정보 반영
+
+   <br>
+
+ - 사용자 상태정보 관리 및 로그인 페이지 (OAuth 로직 제외) 담당
+
+   - 플랫폼 별 OAuth 로그인 지침에 준수한 로그인 페이지 제공
+   - 페이지 새로고침 될 때마다 로그인 상태 정보 확인 및 변경점 반영 로직 제공
 
    <br>
 
