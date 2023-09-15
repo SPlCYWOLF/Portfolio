@@ -1,6 +1,6 @@
 # Why We Climb
 
-## [*플레이하기!*](https://whyweclimb.site)
+## [~~*플레이하기!*~~](https://whyweclimb.site)
 
 #### 가볍게 즐기는 웹 게임
 
